@@ -1,9 +1,13 @@
-import { Drash } from "../deps.ts";
-import UserModel from "../models/user_model.ts";
-import { SessionModel } from "../models/session_model.ts";
+import { Drash } from '../deps.ts';
+import UserModel from '../models/user_model.ts';
+import { SessionModel } from '../models/session_model.ts';
 
 class BaseResource extends Drash.Resource {
   public current_user: UserModel | null = null;
+
+  public async OPTIONS(request: Drash.Request, response: Drash.Response) {
+    return true;
+  }
 
   /**
    * @description
@@ -18,7 +22,7 @@ class BaseResource extends Drash.Resource {
   protected errorResponse(
     statusCode: number,
     message: string,
-    response: Drash.Response,
+    response: Drash.Response
   ): void {
     response.status = statusCode;
     response.json({
@@ -36,11 +40,7 @@ class BaseResource extends Drash.Resource {
    * @return Drash.Http.Response
    */
   protected errorResponseCurrentUser(response: Drash.Response) {
-    return this.errorResponse(
-      400,
-      "`user_id` field is required.",
-      response,
-    );
+    return this.errorResponse(400, '`user_id` field is required.', response);
   }
 
   /**
@@ -53,25 +53,25 @@ class BaseResource extends Drash.Resource {
    * @param request
    * @returns
    */
-  protected async getUser(type: {
-    session?: boolean;
-    query?: boolean;
-    body?: boolean;
-  }, request: Drash.Request): Promise<UserModel | false> {
-    let userId = "";
+  protected async getUser(
+    type: {
+      session?: boolean;
+      query?: boolean;
+      body?: boolean;
+    },
+    request: Drash.Request
+  ): Promise<UserModel | false> {
+    let userId = '';
     if (type.session) {
-      const sessionValues = request.getCookie("drash_sess");
+      const sessionValues = request.getCookie('drash_sess');
       if (!sessionValues) {
         return false;
       }
-      const sessionValuesSplit = sessionValues.split("|::|");
+      const sessionValuesSplit = sessionValues.split('|::|');
       const sessionOne = sessionValuesSplit[0];
       const sessionTwo = sessionValuesSplit[1];
-      const session = await SessionModel.where(
-        "session_one",
-        sessionOne,
-      )
-        .where("session_two", sessionTwo)
+      const session = await SessionModel.where('session_one', sessionOne)
+        .where('session_two', sessionTwo)
         .first();
       if (!session) {
         return false;
@@ -83,15 +83,12 @@ class BaseResource extends Drash.Resource {
       return user;
     }
     if (type.query) {
-      userId = request.queryParam("user_id") ?? "";
+      userId = request.queryParam('user_id') ?? '';
     }
     if (type.body) {
-      userId = request.bodyParam<string>("user_id") ?? "";
+      userId = request.bodyParam<string>('user_id') ?? '';
     }
-    const user = await UserModel.where(
-      "id",
-      userId,
-    ).first();
+    const user = await UserModel.where('id', userId).first();
     if (!user) {
       return false;
     }
