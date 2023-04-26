@@ -1,15 +1,16 @@
-FROM debian:stable-slim
+# FROM debian:stable-slim
+FROM node:16.20.0-bullseye
 
 RUN apt-get update -y \
   && apt-get clean \
-  && apt-get install bash curl unzip -y \
-  && apt-get install -y --no-install-recommends npm \
-  && npm install -g npm@latest
+  && apt-get install bash curl unzip -y
+# && apt-get install -y --no-install-recommends npm \
+# && npm install -g npm@latest
 
-RUN curl -fsSL https://deno.land/x/install/install.sh | DENO_INSTALL=/usr/local sh -s v1.22.1 \
+RUN curl -fsSL https://deno.land/x/install/install.sh | DENO_INSTALL=/usr/local sh -s v1.32.5 \
   && export DENO_INSTALL="/root/.local" \
   && export PATH="$DENO_INSTALL/bin:$PATH" \
-  && deno install --unstable --allow-net=realworld_postgres:5432,deno.land --no-check --allow-env=PGDATABASE,PGHOST,PGPORT,PGUSER,PGPASSWORD,PGAPPNAME --allow-read=. --allow-write=nessie.config.ts,db --name nessie  https://deno.land/x/nessie@2.0.5/cli.ts
+  && deno install --unstable --allow-net=realworld_postgres:5432,deno.land --no-check --allow-env=PGDATABASE,PGHOST,PGPORT,PGUSER,PGPASSWORD,PGAPPNAME --allow-read=. --allow-write=nessie.config.ts,db --name nessie  https://deno.land/x/nessie@2.0.10/cli.ts
 
 WORKDIR /var/www/src
 
@@ -17,7 +18,7 @@ WORKDIR /var/www/src
 COPY src/package.json src/package-lock.json src/webpack.config.js ./
 COPY src/public public
 COPY src/vue vue
-RUN npm i && npm run webpack
+RUN npm i  --no-optional && npm run webpack
 
 # Copy over other src code
 COPY src/. .
