@@ -1,6 +1,6 @@
-export * as Drash from 'https://deno.land/x/drash@v2.7.1/mod.ts';
+export * as Drash from 'https://deno.land/x/drash@v2.5.0/mod.ts';
 export * as bcrypt from 'https://deno.land/x/bcrypt@v0.4.1/mod.ts';
-export { TengineService } from 'https://deno.land/x/drash@v2.7.1/src/services/tengine/tengine.ts';
+export { TengineService } from 'https://deno.land/x/drash@v2.5.0/src/services/tengine/tengine.ts';
 export {
   AbstractMigration,
   AbstractSeed,
