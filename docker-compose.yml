@@ -14,17 +14,17 @@ services:
     networks:
       - drash-app-network
 
-  postgres:
-    image: "postgres:11"
-    container_name: "realworld_postgres"
-    ports:
-      - "54320:5432"
-    environment:
-      - POSTGRES_USER=user
-      - POSTGRES_PASSWORD=userpassword
-      - POSTGRES_DB=realworld
-    networks:
-      - drash-app-network
+#  postgres:
+#    image: "postgres:11"
+#    container_name: "realworld_postgres"
+#    ports:
+#      - "54320:5432"
+#    environment:
+#      - POSTGRES_USER=user
+#      - POSTGRES_PASSWORD=userpassword
+#      - POSTGRES_DB=realworld
+#    networks:
+#      - drash-app-network
 
   drash:
     container_name: realworld_drash
