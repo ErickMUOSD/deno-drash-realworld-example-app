@@ -40,7 +40,7 @@ jobs:
             docker compose down || true
             docker compose build
             docker compose up -d nginx drash
-            
+            sleep 5 
             docker compose run --rm certbot certonly --webroot --webroot-path=/var/www/certbot \
             -d drash.app.erickprojects.xyz -d www.drashapp.erickprojects.xyz --email ${{secrets.CERBOT_EMAIL}} --agree-tos --no-eff-email
             
