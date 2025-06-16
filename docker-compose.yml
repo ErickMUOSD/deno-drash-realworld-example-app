@@ -77,14 +77,7 @@ services:
     volumes:
       - ./certbot/www:/var/www/certbot
       - ./certbot/conf:/etc/letsencrypt
-    entrypoint: /bin/sh -c
-    command: >
-      "certbot certonly --webroot 
-      --webroot-path=/var/www/certbot 
-      --email martinoli944@gmail.com 
-      --agree-tos 
-      --no-eff-email 
-      -d drash.app.erickprojects.xyz -d www.drashapp.erickprojects.xyz"
+
 networks:
   drash-app-network:
     driver: bridge
