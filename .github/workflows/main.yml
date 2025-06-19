@@ -45,6 +45,8 @@ jobs:
             -d drash.app.erickprojects.xyz -d www.drashapp.erickprojects.xyz --email ${{secrets.CERBOT_EMAIL}} --agree-tos --no-eff-email --non-interactive
             
             docker compose restart nginx
-
+            docker exec -it  realworld_drash bash
+            /root/.deno/bin/nessie migrate
+            /root/.deno/bin/nessie seed
 
             echo "✅ Deployment complete!"
